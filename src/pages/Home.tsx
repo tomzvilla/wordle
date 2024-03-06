@@ -1,12 +1,12 @@
 import wordleIcon from '../assets/img/wordle.png'
 import { useAppDispatch } from '../hooks/hooks'
-import { uiActions } from '../store/ui-slice'
+import { gameActions } from '../store/game-slice'
 const Home = () => {
 
     const dispatch = useAppDispatch()
 
     const onClickHandler = (): void => {
-        dispatch(uiActions.initGame())
+        dispatch(gameActions.initializeGame())
     }
     return (
         <div className='bg-[#e3e3e1] h-screen flex items-center justify-center'>

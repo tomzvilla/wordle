@@ -4,12 +4,26 @@ interface UIState {
     showNotification: boolean
     notificationText: string
     initGame: boolean
+    showAlert: boolean
+    alertText: UIAlert
+    playingAnimation: boolean
+}
+
+interface UIAlert {
+    text: string
+    gameWord?: string
 }
 
 const initialState: UIState = {
     showNotification: false,
     notificationText: '',
     initGame: false,
+    showAlert: false,
+    alertText: {
+        text: 'You have won!',
+        gameWord: ''
+    },
+    playingAnimation: false,
 };
 
 const uiSlice = createSlice({
@@ -28,6 +42,21 @@ const uiSlice = createSlice({
         },
         quitGame(state) {
             state.initGame = false;
+        },
+        showAlert(state, action: PayloadAction<UIAlert>) {
+            state.showAlert = true;
+            state.alertText.text = action.payload.text;
+            state.alertText.gameWord = action.payload?.gameWord;
+        },
+        closeAlert(state) {
+            console.log('trying to close alert')
+            state.showAlert = false;
+        },
+        togglePlayingAnimation(state) {
+            state.playingAnimation = !state.playingAnimation;
+        },
+        endAnimation(state) {
+            state.playingAnimation = false
         }
     }
 });

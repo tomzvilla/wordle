@@ -1,6 +1,7 @@
 import React from 'react'
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react'
+import { useAppDispatch } from '../hooks/hooks'
+import { uiActions } from '../store/ui-slice'
 interface RowProps {
     letters: string[]
     styles: string[]
@@ -10,13 +11,24 @@ interface RowProps {
 
 const Row: React.FC<RowProps> = ({ letters, styles, rowCompleted, shouldShake }) => {
 
-    const [defaultStyles, setDefaultStyles] = useState(['','','','',''])
+    const [defaultStyles, setDefaultStyles] = useState<string[]>([]);
 
+    useEffect(() => {
+        // Inicializa defaultStyles con los estilos predeterminados
+        const initialDefaultStyles = letters.map(() => '');
+        setDefaultStyles(initialDefaultStyles);
+    }, [letters]);
+
+
+    const dispatch = useAppDispatch()
 
     const handleAnimationEnd = (index: number): void => {
         const updatedStyles = [...defaultStyles];
         updatedStyles[index] = styles[index] + ' text-white border-current'
         setDefaultStyles(updatedStyles)
+        if(index === 4) {
+            dispatch(uiActions.endAnimation())
+        }
     }
 
     return (
