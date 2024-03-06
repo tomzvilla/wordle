@@ -1,152 +1,22 @@
-import React from 'react'
-import Row from '../components/Row'
-import { useState, useEffect } from 'react'
+import wordleIcon from '../assets/img/wordle.png'
+import { useAppDispatch } from '../hooks/hooks'
+import { uiActions } from '../store/ui-slice'
+const Home = () => {
 
-interface LettersState {
-  [key: number]: string[]
-}
+    const dispatch = useAppDispatch()
 
-interface StylesState {
-  [key: number]: string[]
-}
-
-interface HomeProps {
-  dictionary: string[]
-}
-
-const Home: React.FC<HomeProps> = ({ dictionary }) => {
-
-  const [letters, setLetters] = useState<LettersState>({
-    0: ['', '','','',''],
-    1: ['', '','','',''],
-    2: ['', '','','',''],
-    3: ['', '','','',''],
-    4: ['', '','','',''],
-    5: ['', '','','',''],
-  })
-
-  const [styles, setStyles] = useState<StylesState>({
-    0: ['', '','','',''],
-    1: ['', '','','',''],
-    2: ['', '','','',''],
-    3: ['', '','','',''],
-    4: ['', '','','',''],
-    5: ['', '','','',''],
-  })
-
-  const [currentRow, setCurrentRow] = useState<number>(0)
-
-  const [shouldShake, setShouldShake] = useState<boolean>(false)
-
-  const [gameWord] = useState<string>(dictionary[Math.floor(Math.random() * dictionary.length)].toUpperCase())
-
-  console.log(gameWord)
-
-  const handleInputLetter = (letter: string): void => {
-    setLetters(prevLetters => {
-      const currentRowState = [...letters[currentRow]];
-      const index = currentRowState.findIndex(l => l === '');
-      if(index !== -1) {
-        currentRowState[index] = letter.toUpperCase();
-      }
-      return {
-        ...prevLetters,
-        [currentRow]: currentRowState
-      }
-    })
-  }
-
-  const handleRemoveLetter = (): void => {
-    setLetters(prevLetters => {
-      const currentRowState = [...letters[currentRow]];
-      const index = currentRowState.findIndex(l => l === '');
-      if(index !== -1) {
-        currentRowState[index - 1] = '';
-      } else {
-        currentRowState[4] = '';
-      }
-      return {
-        ...prevLetters,
-        [currentRow]: currentRowState
-      }
-    })
-  }
-
-
-  const handleKeyDown = (e: KeyboardEvent): void => {
-    e.preventDefault();
-    if(/[a-zA-Z]/.test(e.key) && e.key.length === 1) {
-      handleInputLetter(e.key)
-    } else if(e.key === 'Backspace') {
-      handleRemoveLetter()
-    } else if(e.key === 'Enter') {
-      if(letters[currentRow].findIndex(l => l === '') !== -1) {
-        return
-      }
-      
-      makeGuess()
-      
-      // TODO handle end game (curentRow === 5)
-      
-
+    const onClickHandler = (): void => {
+        dispatch(uiActions.initGame())
     }
-  }
-
-  const checkWordExists = (word: string): boolean => {
-    return dictionary.findIndex(w => w.toUpperCase() === word) !== -1;
-
-  }
-
-  const makeGuess = () => {
-    let styles: string[] = []
-    if(!checkWordExists(letters[currentRow].join(''))) {
-      setShouldShake(true)
-      setTimeout(() => {
-        setShouldShake(false);
-      }, 500);
-      return
-    } else {
-      if(letters[currentRow].join('') === gameWord) {
-        styles = ['bg-[#43a047]', 'bg-[#43a047]', 'bg-[#43a047]', 'bg-[#43a047]', 'bg-[#43a047]']
-      } else {
-        letters[currentRow].forEach((letter, index) => {
-          if(letter === gameWord.charAt(index)) {
-            styles.push('bg-[#43a047]');
-          } else if(gameWord.includes(letter)) {
-            styles.push('bg-[#e4a81d]');
-          } else {
-            styles.push('bg-[#757575]')
-          }
-        });
-      }
-      setCurrentRow(currentRow => currentRow + 1)
-    }
-    setStyles(prevStyles => {
-      return {
-        ...prevStyles,
-        [currentRow]: styles
-      }
-    })
-    
-  }
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown)
-  
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [handleKeyDown])
-  
-
-  return (
-    <main className='w-full h-[80%] flex flex-col items-center justify-center py-5'>
-      {
-        Array.from({ length: 6 }).map((_, index) => (
-          <Row key={index} letters={letters[index]} styles={styles[index]} rowCompleted={index < currentRow} shouldShake={index === currentRow ? shouldShake : false}/>
-        ))
-      }
-    </main>
+    return (
+        <div className='bg-[#e3e3e1] h-screen flex items-center justify-center'>
+            <div className='w-[450px] flex flex-col items-center justify-center'>
+                <img src={wordleIcon} alt="Logo" className='w-[100px] mb-4'/>
+                <h1 className='text-6xl font-vacer mb-4'>Wordle Clone</h1>
+                <h2 className='text-4xl text-center font-glegoo mb-6'>Get 6 chances to guess a 5-letter word.</h2>
+                <button onClick={onClickHandler} className='bg-black hover:bg-gray-950 text-white px-20 py-3 rounded-3xl m-t-10'>Play</button>
+            </div>
+        </div>
   )
 }
 

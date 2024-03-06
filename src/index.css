@@ -1,6 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Glegoo:wght@400;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Bevan";
+  src: url("/fonts/Bevan.ttf");
+}
+
+@font-face {
+  font-family: "Vacer";
+  src: url("/fonts/VacerSerifBlackPersonal.ttf");
+}
 
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
