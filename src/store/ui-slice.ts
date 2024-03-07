@@ -49,7 +49,6 @@ const uiSlice = createSlice({
             state.alertText.gameWord = action.payload?.gameWord;
         },
         closeAlert(state) {
-            console.log('trying to close alert')
             state.showAlert = false;
         },
         togglePlayingAnimation(state) {

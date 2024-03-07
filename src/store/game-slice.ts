@@ -80,6 +80,9 @@ const gameSlice = createSlice({
                 return rowStyles;
             });
             state.styles = newStyles;
+        },
+        quitGame(state) {
+            state.initGame = false;
         }
     }
 });

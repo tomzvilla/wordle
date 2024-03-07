@@ -37,11 +37,11 @@ const Row: React.FC<RowProps> = ({ letters, styles, rowCompleted, shouldShake })
                 letters.map( (letter, index) => (
                     <div 
                         style={{ animationDelay: `${index * 400}ms` }} 
-                        className={`w-[70px] h-[70px] mx-0.5 p-0 rounded-md flex items-center justify-center border-2 border-gray-300 ${defaultStyles[index]} ${rowCompleted ? `animate-flip` : ''}`} 
+                        className={`w-[70px] h-[70px] mx-0.5 p-0 rounded-md flex items-center justify-center border-2 ${defaultStyles[index]} ${rowCompleted ? `animate-flip` : ''}`} 
                         key={index}
                         onAnimationEnd={() => handleAnimationEnd(index)}
                     >
-                        <div className='text-4xl font-bold'>
+                        <div className='text-4xl font-bold dark:text-white'>
                         {letter}
                         </div>
                     </div>

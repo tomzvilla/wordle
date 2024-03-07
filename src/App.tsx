@@ -14,7 +14,7 @@ const App = () => {
   const initGame = useAppSelector(state => state.game.initGame)
 
   return (
-    <>
+    <div className='min-h-screen bg-white dark:bg-[#121213] '>
       {!initGame ? 
       <Home />
       :
@@ -26,7 +26,7 @@ const App = () => {
         <Keyboard />
       </>
       }
-    </>
+    </div>
   )
 }
 

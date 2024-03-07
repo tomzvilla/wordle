@@ -116,18 +116,20 @@ const GameScreen = () => {
   
 
   return (
-    <main className='w-full h-[80%] flex flex-col items-center justify-center py-5'>
-      {
-        Array.from({ length: 6 }).map((_, index) => (
-          <Row 
-            key={index}
-            letters={letters[index]} 
-            styles={styles[index]} 
-            rowCompleted={index < currentRow} 
-            shouldShake={index === currentRow ? shouldShake : false}
-          />
-        ))
-      }
+    <main className='w-full h-full flex flex-col items-center justify-center py-5 overflow-hidden'>
+      <div className='h-full'>
+        {
+          Array.from({ length: 6 }).map((_, index) => (
+            <Row 
+              key={index}
+              letters={letters[index]} 
+              styles={styles[index]} 
+              rowCompleted={index < currentRow} 
+              shouldShake={index === currentRow ? shouldShake : false}
+            />
+          ))
+        }
+      </div>
     </main>
   )
 }
