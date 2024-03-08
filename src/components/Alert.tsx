@@ -15,8 +15,8 @@ const Alert = () => {
     };
 
     return (
-        <div className={`fixed top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 px-[150px] py-[70px] text-center bg-white rounded-lg shadow-lg border-t-2 flex flex-col items-center justify-center ${showAlert ? 'animate-fade-in' : 'animate-fade-out hidden'}`}>
-            <div className="font-bold text-xl">{alertText.text}</div>
+        <div className={`fixed top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 py-[30px] px-[70px] md:px-[150px] md:py-[70px] text-center bg-white rounded-lg shadow-lg border-t-2 flex flex-col items-center justify-center ${showAlert ? 'animate-fade-in' : 'animate-fade-out hidden'}`}>
+            <div className="font-bold text-xl w-[170px]">{alertText.text}</div>
             {
                 alertText.gameWord ?
                 <p className='mt-4 text-center'>The word was: <strong>{alertText.gameWord}</strong></p>
