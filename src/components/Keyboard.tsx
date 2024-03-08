@@ -14,7 +14,7 @@ const Keyboard: React.FC<KeyboardProps> = ({ currentRow, makeGuess, handleInputL
   const set3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
 
   return (
-    <div>
+    <div className="w-screen">
       <div className="flex flex-row justify-center items-center m-1">
         {set1.map((char, index) => 
           <Key key={index} letter={char} currentRow={currentRow} makeGuess={makeGuess} handleInputLetter={handleInputLetter} handleRemoveLetter={handleRemoveLetter} />
