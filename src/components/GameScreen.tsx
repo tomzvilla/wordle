@@ -1,4 +1,5 @@
 import Row from './Row'
+import Keyboard from './Keyboard'
 import { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks/hooks'
 import { uiActions } from '../store/ui-slice'
@@ -15,8 +16,6 @@ const GameScreen = () => {
   const letters = useAppSelector(state => state.game.letters)
   const styles = useAppSelector(state => state.game.styles)
   const playingAnimation = useAppSelector(state => state.ui.playingAnimation)
-
-  console.log(gameWord)
 
   const handleInputLetter = (letter: string): void => {
     dispatch(gameActions.setLetter({
@@ -85,13 +84,16 @@ const GameScreen = () => {
       } else {
         dispatch(uiActions.togglePlayingAnimation())
         letters[currentRow].forEach((letter, index) => {
-          if(letter === gameWord.charAt(index)) {
-            styles.push('bg-[#43a047]');
+          let style;
+          if(letter === gameWord.charAt(index)) {   
+            style = 'bg-[#43a047] dark:bg-[#43a047]';
           } else if(gameWord.includes(letter)) {
-            styles.push('bg-[#e4a81d]');
+            style = 'bg-[#e4a81d] dark:bg-[#e4a81d]';
           } else {
-            styles.push('bg-[#757575]')
+            style = 'bg-[#757575] dark:bg-[#3a3a3c]'
           }
+          styles.push(style)
+          dispatch(gameActions.markLetter({[letter]: style}))
         });
         if(currentRow === 5) {
           handleGameEnd(false)
@@ -129,6 +131,9 @@ const GameScreen = () => {
             />
           ))
         }
+      </div>
+      <div className='mt-4'>
+          <Keyboard currentRow={currentRow} makeGuess={makeGuess} handleInputLetter={handleInputLetter} handleRemoveLetter={handleRemoveLetter} />
       </div>
     </main>
   )

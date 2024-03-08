@@ -3,14 +3,6 @@ import { dictionary } from '../utils/dictionaryEn'
 
 const NUM_ROWS = 6;
 
-interface GameState {
-    initGame: boolean
-    resetGame: boolean
-    gameWord: string,
-    letters: string[][]
-    styles: string[][]
-}
-
 interface LetterChange {
     letter: string
     row: number
@@ -21,6 +13,18 @@ interface StyleChange {
     row: number
 }
 
+interface KeysChange {
+    [key: string]: string
+}
+
+interface GameState {
+    initGame: boolean
+    resetGame: boolean
+    gameWord: string,
+    letters: string[][]
+    styles: string[][]
+    usedKeys: KeysChange[]
+}
 
 const initialState: GameState = {
     initGame: false,
@@ -28,6 +32,8 @@ const initialState: GameState = {
     resetGame: false,
     letters: Array.from({ length: NUM_ROWS }, () => ['', '', '', '', '']),
     styles: Array.from({ length: NUM_ROWS }, () => ['', '', '', '', '']),
+    usedKeys: [],
+
 };
 
 const gameSlice = createSlice({
@@ -37,11 +43,13 @@ const gameSlice = createSlice({
         initializeGame(state) {
             state.gameWord = dictionary[Math.floor(Math.random() * dictionary.length)].toUpperCase();
             state.initGame = true;
+            state.usedKeys = [];
         },
         resetGame(state) {
             state.initGame = true;
             state.letters = Array.from({ length: NUM_ROWS }, () => ['', '', '', '', '']);
             state.styles = Array.from({ length: NUM_ROWS }, () => ['', '', '', '', '']);
+            state.usedKeys = [];
             state.gameWord = dictionary[Math.floor(Math.random() * dictionary.length)].toUpperCase();
            
         },
@@ -83,6 +91,16 @@ const gameSlice = createSlice({
         },
         quitGame(state) {
             state.initGame = false;
+        },
+        markLetter(state, action: PayloadAction<KeysChange>) {
+            const prevUsedKeys = [...state.usedKeys];
+            const index = prevUsedKeys.findIndex(k => Object.keys(k)[0] === Object.keys(action.payload)[0])
+            if(index !== -1) {
+                prevUsedKeys[index] = action.payload;
+            } else {
+                prevUsedKeys.push(action.payload);
+            }
+            state.usedKeys = prevUsedKeys;
         }
     }
 });

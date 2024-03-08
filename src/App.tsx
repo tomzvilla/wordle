@@ -2,7 +2,6 @@ import './App.css'
 import Header from './components/Header'
 import GameScreen from './components/GameScreen'
 import Home from './pages/Home'
-import Keyboard from './components/Keyboard'
 import Notification from './components/Notification'
 import Alert from './components/Alert'
 import { useAppSelector } from './hooks/hooks'
@@ -23,7 +22,6 @@ const App = () => {
         <Alert />
         <Notification />
         <GameScreen />
-        <Keyboard />
       </>
       }
     </div>
